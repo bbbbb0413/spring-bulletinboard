@@ -15,6 +15,7 @@ public class WebConfig {
   public FreeMarkerConfigurer freemarkerConfig() {
     FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
     freeMarkerConfigurer.setTemplateLoaderPath("classpath:/templates/");
+
     return freeMarkerConfigurer;
   }
 
@@ -24,7 +25,7 @@ public class WebConfig {
     FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
     resolver.setCache(true);
     resolver.setSuffix(".ftl");
-    resolver.setContentType("utf-8");
+    resolver.setContentType("charset=utf-8");
     return resolver;
   }
 }

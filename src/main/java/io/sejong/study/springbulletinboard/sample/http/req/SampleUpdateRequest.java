@@ -8,8 +8,10 @@ import lombok.Setter;
 @Setter
 public class SampleUpdateRequest {
   private Long sampleId;
+
   private String name;
   private Integer age;
   private LocalDateTime birthday;
   private String address;
+
 }
