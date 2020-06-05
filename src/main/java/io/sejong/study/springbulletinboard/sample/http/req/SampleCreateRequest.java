@@ -11,4 +11,6 @@ public class SampleCreateRequest {
   private Integer age;
   private LocalDateTime birthday;
   private String address;
+
+
 }
