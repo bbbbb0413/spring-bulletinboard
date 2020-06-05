@@ -4,11 +4,11 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/bulletinboard?serverTimezone=Asia/Seoul # 데이터베이스 이름 bulletinboard
-    username: ${DB_USERNAME}  # mysql username로 변경
-    password: ${DB_PASSWORD}  # mysql password로 변경
+    username: root  # mysql username로 변경
+    password: '0000'  # mysql password로 변경
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create  # create: 정의된 엔티티 데이터베이스 추가, update: 변경점만 반영, create-drop: 데이터베이스 반영 후 애플리케이션 종료 시 삭제, validate: 동일 여부 확인, none: 아무것도 하지 않음
+      ddl-auto: update  # update: 정의된 엔티티 데이터베이스 추가, update: 변경점만 반영, create-drop: 데이터베이스 반영 후 애플리케이션 종료 시 삭제, validate: 동일 여부 확인, none: 아무것도 하지 않음
     open-in-view: false # View layer 에서 JPA 영속성 관련 세션 연결을 허용하지 않는다.
     generate-ddl: true  # DDL 생성
