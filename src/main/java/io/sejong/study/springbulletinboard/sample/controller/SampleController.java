@@ -1,39 +1,68 @@
 package io.sejong.study.springbulletinboard.sample.controller;
 
 import io.sejong.study.springbulletinboard.sample.entity.Sample;
+import io.sejong.study.springbulletinboard.sample.entity.Board;
+import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
+import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.model.Type;
 import io.sejong.study.springbulletinboard.sample.service.SampleService;
+import io.sejong.study.springbulletinboard.sample.service.BoardService;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class SampleController {
 
-  private final SampleService sampleService;
+  private final BoardService boardService;
 
-  public SampleController(SampleService sampleService) {
-    this.sampleService = sampleService;
+  public SampleController(BoardService boardService) {
+    this.boardService = boardService;
   }
 
   /** sample 전체 조회 http://localhost:8080/sample/read-all */
   @RequestMapping("/sample/read-all")
-  public String getSamplesAll(Model model) {
-    List<Sample> sampleList = sampleService.getAll();
-    model.addAttribute("sampleList", sampleList);
+  public String getBoardsAll(Model model) {
+    List<Board> boardList = boardService.getAll();
+//    List<Board> test = new ArrayList<>();
+    int i, cnt, startpage, endpage,size=5;
+    cnt = 0;
+    startpage = 1;
+    endpage = 1;
+    for(i=0;i<boardList.size();i++)
+    {
+      cnt++;
+      if(cnt >=5) {
 
+        cnt = 0;
+        endpage++;
+      }
+    }
+//    for(i=(curpage-1)*5;i<5*curpage;i++)
+//    {
+//      test.add(boardList.get(i));
+//    }
+
+    model.addAttribute("boardList", boardList);
+    model.addAttribute("cnt", cnt);
+    model.addAttribute("startpage", startpage);
+    model.addAttribute("endpage", endpage);
+//    model.addAttribute("curpage",curpage);
     // sample-read-all.ftl 뷰를 반환한다.
     return "sample-read-all";
   }
 
   /** sample 단건 조회 http://localhost:8080/sample/read-one?sample_id={sample_id} */
   @RequestMapping("/sample/read-one")
-  public String getSampleOne(Model model, @RequestParam("sample_id") Long sampleId) {
-    Sample sample = sampleService.getOneBySampleId(sampleId);
-    model.addAttribute("sample", sample);
+  public String getBoardOne(Model model, @RequestParam("board_id") Long boardId) {
+    Board board = boardService.getOneByBoardId(boardId);
+    model.addAttribute("board", board);
 
     // sample-read-one.ftl 뷰를 반환한다.
     return "sample-read-one";
@@ -41,9 +70,9 @@ public class SampleController {
 
   /** sample 등록 http://localhost:8080/sample/create */
   @PostMapping("/sample/create")
-  public String createSample(Model model, @ModelAttribute SampleCreateRequest request) {
-    Sample sample = sampleService.createSample(request);
-    model.addAttribute("sample_id", sample.getSampleId());
+  public String createBoard(Model model, @ModelAttribute BoardCreateRequest request) {
+    Board board = boardService.createBoard(request);
+    model.addAttribute("board_id", board.getBoardId());
 
     // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
     return "redirect:/sample/read-one";
@@ -51,9 +80,9 @@ public class SampleController {
 
   /** sample 수정 http://localhost:8080/sample/update */
   @PostMapping("/sample/update")
-  public String updateSample(Model model, @ModelAttribute SampleUpdateRequest request) {
-    Sample sample = sampleService.updateSample(request);
-    model.addAttribute("sample_id", sample.getSampleId());
+  public String updateBoard(Model model, @ModelAttribute BoardUpdateRequest request) {
+    Board board = boardService.updateBoard(request);
+    model.addAttribute("board_id", board.getBoardId());
 
     // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
     return "redirect:/sample/read-one";
@@ -64,14 +93,14 @@ public class SampleController {
    * http://localhost:8080/sample/write?type=UPDATE&sample_id={sample_id}
    */
   @RequestMapping("/sample/write")
-  public String writeSample(
-      Model model,
-      @RequestParam Type type,
-      @RequestParam(value = "sample_id", required = false) Long sampleId) {
-    Sample sample;
+  public String writeBoard(
+          Model model,
+          @RequestParam Type type,
+          @RequestParam(value = "board_id", required = false) Long boardId) {
+    Board board;
     if (type == Type.UPDATE) {
-      sample = sampleService.getOneBySampleId(sampleId);
-      model.addAttribute("sample", sample);
+      board = boardService.getOneByBoardId(boardId);
+      model.addAttribute("board", board);
     }
     model.addAttribute("type", type);
 
@@ -81,8 +110,8 @@ public class SampleController {
 
   /** http://localhost:8080/sample/delete?sample_id={sample_id} */
   @RequestMapping("/sample/delete")
-  public String deleteSample(@RequestParam("sample_id") Long sampleId) {
-    sampleService.deleteSample(sampleId);
+  public String deleteBoard(@RequestParam("board_id") Long boardId) {
+    boardService.deleteBoard(boardId);
     // http://localhost:8080/sample/read-all로 리다이렉션 한다.
     return "redirect:/sample/read-all";
   }
