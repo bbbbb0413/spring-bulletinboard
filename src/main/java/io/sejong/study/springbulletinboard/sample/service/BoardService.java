@@ -18,16 +18,14 @@ public class BoardService {
   }
 
   public List<Board> getAll(int curpage) {
-    int inquiry;
-    int startpage , endpage, size;
-    startpage = 1;
-    size = 5;
-    List<Integer> test = boardRepository.findpaging();
-    inquiry = test.get(0);
-    endpage = (inquiry / 5) + 1;
+    int size;
     int start;
+    size = 5;
     start = (curpage*size);
     return boardRepository.findSomeCase(start,size);
+  }
+  public List<Integer> getCount(){
+    return boardRepository.findpaging();
   }
 
   public Board getOneByBoardId(Long boardId) {

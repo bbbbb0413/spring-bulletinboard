@@ -29,13 +29,16 @@ public class SampleController {
   /** sample 전체 조회 http://localhost:8080/sample/read-all?curpage={curpage}*/
   @RequestMapping("/sample/read-all")
   public String getBoardsAll(Model model, @RequestParam("curpage") int curpage) {
+    List <Integer> count = boardService.getCount();
+    int startpage , endpage, cnt;
+    startpage = 0;
 
-    int startpage = 0;
-    int endpage = 5;
+    cnt = count.get(0);
+    endpage = (cnt / 5);
+
     List<Board> boardList = boardService.getAll(curpage);
 
     model.addAttribute("boardList", boardList);
-    model.addAttribute("page",curpage);
     model.addAttribute("startpage", startpage);
     model.addAttribute("endpage", endpage);
     // sample-read-all.ftl 뷰를 반환한다.
