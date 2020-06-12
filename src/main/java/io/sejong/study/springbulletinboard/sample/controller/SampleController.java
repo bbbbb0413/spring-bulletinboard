@@ -26,34 +26,18 @@ public class SampleController {
     this.boardService = boardService;
   }
 
-  /** sample 전체 조회 http://localhost:8080/sample/read-all */
+  /** sample 전체 조회 http://localhost:8080/sample/read-all?curpage={curpage}*/
   @RequestMapping("/sample/read-all")
-  public String getBoardsAll(Model model) {
-    List<Board> boardList = boardService.getAll();
-//    List<Board> test = new ArrayList<>();
-    int i, cnt, startpage, endpage,size=5;
-    cnt = 0;
-    startpage = 1;
-    endpage = 1;
-    for(i=0;i<boardList.size();i++)
-    {
-      cnt++;
-      if(cnt >=5) {
+  public String getBoardsAll(Model model, @RequestParam("curpage") int curpage) {
 
-        cnt = 0;
-        endpage++;
-      }
-    }
-//    for(i=(curpage-1)*5;i<5*curpage;i++)
-//    {
-//      test.add(boardList.get(i));
-//    }
+    int startpage = 0;
+    int endpage = 5;
+    List<Board> boardList = boardService.getAll(curpage);
 
     model.addAttribute("boardList", boardList);
-    model.addAttribute("cnt", cnt);
+    model.addAttribute("page",curpage);
     model.addAttribute("startpage", startpage);
     model.addAttribute("endpage", endpage);
-//    model.addAttribute("curpage",curpage);
     // sample-read-all.ftl 뷰를 반환한다.
     return "sample-read-all";
   }
