@@ -12,7 +12,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
   @Query(value = "select * from board order by board_id limit :start, :size",
            nativeQuery=true)
-
   List<Board> findSomeCase(@Param("start") Integer start, @Param("size") Integer size);
 
   @Query(value = "select count(*) from board", nativeQuery = true)
