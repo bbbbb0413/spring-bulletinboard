@@ -47,6 +47,7 @@ public class BoardService {
     board.setBoardCount(request.getBoardCount());
     board.setBoardPrivate(request.getBoardPrivate());
     board.setUsId(request.getUsId());
+    board.setUsId(request.getUsId());
 
     return boardRepository.save(board);
   }

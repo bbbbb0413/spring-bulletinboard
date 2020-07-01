@@ -2,6 +2,8 @@ package io.sejong.study.springbulletinboard.sample.controller;
 
 import io.sejong.study.springbulletinboard.sample.entity.Sample;
 import io.sejong.study.springbulletinboard.sample.entity.Board;
+import io.sejong.study.springbulletinboard.sample.entity.Reply;
+
 import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleCreateRequest;
@@ -49,6 +51,7 @@ public class SampleController {
   @RequestMapping("/sample/read-one")
   public String getBoardOne(Model model, @RequestParam("board_id") Long boardId) {
     Board board = boardService.getOneByBoardId(boardId);
+
     model.addAttribute("board", board);
 
     // sample-read-one.ftl 뷰를 반환한다.
