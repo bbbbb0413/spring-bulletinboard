@@ -1,4 +1,5 @@
 <#ftl encoding="utf-8">
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:c="http://java.sun.com/jsp/jstl/core">
 
@@ -28,18 +29,16 @@
                 <td>${row.boardFixDate}</td>
                 <td><a href="http://localhost:8080/sample/read-one?board_id=${row.boardId}">${row.boardTitle}</a></td>
             </tr>
-            <#if row_index?number%5 == 4>
-                <#break>
-            </#if>
+
         </#list>
     </table>
-    <p>${cnt}</p>
     <button type = "button" onclick="location.href ='http://localhost:8080/sample/write?type=CREATE'">
         Post
     </button>
     <button type = "button" onclick="location.href ='http://localhost:8080/sample/sign-up?type=CREATE'">
         sign up
     </button>
+
     <#list startpage..endpage as curpage>
         <a href = "http://localhost:8080/sample/read-all?curpage=${curpage}">${curpage}</a>
     </#list>

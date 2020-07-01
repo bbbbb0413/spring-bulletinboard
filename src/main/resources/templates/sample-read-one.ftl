@@ -24,7 +24,7 @@
     </tr>
     <form>
     <div class="button">
-        <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all'">>
+        <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all?curpage=0'">>
             back
         </button>
     </div>

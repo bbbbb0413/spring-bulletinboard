@@ -17,12 +17,19 @@ public class BoardService {
     this.boardRepository = boardRepository;
   }
 
-  public List<Board> getAll() {
-
-    return boardRepository.findAll();
+  public List<Board> getAll(int curpage) {
+    int size;
+    int start;
+    size = 5;
+    start = (curpage*size);
+    return boardRepository.findSomeCase(start,size);
+  }
+  public List<Integer> getCount(){
+    return boardRepository.findpaging();
   }
 
   public Board getOneByBoardId(Long boardId) {
+
     return boardRepository.findByBoardId(boardId);
   }
 
