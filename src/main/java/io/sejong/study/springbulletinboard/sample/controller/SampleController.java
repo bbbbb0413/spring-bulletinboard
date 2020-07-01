@@ -26,9 +26,9 @@ public class SampleController {
     this.boardService = boardService;
   }
 
-  /** sample 전체 조회 http://localhost:8080/sample/read-all?curpage={curpage}*/
+  /** sample 전체 조회 http://localhost:8080/sample/read-all*/
   @RequestMapping("/sample/read-all")
-  public String getBoardsAll(Model model, @RequestParam("curpage") int curpage) {
+  public String getBoardsAll(Model model, @RequestParam(value = "curpage", required = false, defaultValue = "0") int curpage) {
     List <Integer> count = boardService.getCount();
     int startpage , endpage, cnt;
     startpage = 0;
