@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Board {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
