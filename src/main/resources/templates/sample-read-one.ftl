@@ -5,41 +5,48 @@
     <title>단건 조회</title>
 </head>
 <body>
-<form name = "form1">
-    <div>
-        boardId : <label>${board.boardId} </label>
-    </div>
-    <div>
-        <input name="boardTitle" id="boardTitle" size="80" placeholder=${board.boardTitle} readonly>
-    </div>
+    <form name = "form1">
+        <div>
+            boardId : <label>${board.boardId} </label>
+        </div>
+        <div>
+            <input name="boardTitle" id="boardTitle" size="80" placeholder=${board.boardTitle} readonly>
+        </div>
 
-    <div>
-        <textarea name="boardContent" id="boardContent" rows="10" cols="80" placeholder=${board.boardContent} readonly></textarea>
-    </div>
-    <div>
-        Makedate : <label>${board.boardMakeDate} </label>
-    </div>
-    <div>
-        Fixdate : <label>${board.boardFixDate} </label>
-    </div>
-    <div>
-        Count : <label>${board.boardCount} </label>
-    </div>
-    <br>
-    <div class="button">
-        <button type = "button" onclick="location.href = 'http://localhost:8080/sample/write?type=UPDATE&board_id=${board.boardId}'">
-            update
-        </button>
+        <div>
+            <textarea name="boardContent" id="boardContent" rows="10" cols="80" placeholder=${board.boardContent} readonly></textarea>
+        </div>
+        <div>
+            Makedate : <label>${board.boardMakeDate} </label>
+        </div>
+        <div>
+            Fixdate : <label>${board.boardFixDate} </label>
+        </div>
+        <div>
+            Count : <label>${board.boardCount} </label>
+        </div>
+        <br>
+        <div class="button">
+            <button type = "button" onclick="location.href = 'http://localhost:8080/sample/write?type=UPDATE&board_id=${board.boardId}'">
+                update
+            </button>
 
-    </div>
-</form>
-    <form>
-    <div class="button">
-        <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all'">>
-            back
-        </button>
-    </div>
+        </div>
+        <br>
     </form>
+    <button type = "button" onclick="location.href = 'http://localhost:8080/sample/delete?board_id=${board.boardId}'">
+        delete
+    </button>
+
+    <form name = "form2">
+        <br>
+        <div class="button">
+            <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all'">>
+               back
+            </button>
+        </div>
+    </form>
+
 <#--Reply form 수정해야함.-->
 <#--    <form name = "form2" method ="post" action = "/sample/create">-->
 <#--        <div>-->
