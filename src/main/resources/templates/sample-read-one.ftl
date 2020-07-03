@@ -66,19 +66,21 @@
 <#--    </form>-->
 
 <#--reply 목록 조회 출력하는 부분, 변경해야함-->
-<#--<table border ="1" width = "600px">-->
-<#--    <tr>-->
-<#--        <th>id</th>-->
-<#--        <th>writer</th>-->
-<#--        <th>content</th>-->
-<#--        <th>makedate</th>-->
-<#--    </tr>-->
-<#--    <tr>-->
-<#--        <td>${reply.replyId}</td>-->
-<#--        <td>${reply.replyWriter}</td>-->
-<#--        <td>${reply.replyContent}</td>-->
-<#--        <td>${reply.replyMakedate}</td>-->
-<#--    </tr>-->
-<#--</table>-->
+<table border ="1" width = "600px">
+<#list board.replies as row>
+    <tr>
+        <th>id</th>
+        <th>writer</th>
+        <th>content</th>
+        <th>makedate</th>
+    </tr>
+    <tr>
+        <td>${row.replyId}</td>
+        <td>${row.replyWriter}</td>
+        <td>${row.replyContent}</td>
+        <td>${row.replyMakeDate}</td>
+    </tr>
+</#list>
+</table>
 </body>
 </html>

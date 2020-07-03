@@ -1,6 +1,7 @@
 package io.sejong.study.springbulletinboard.sample.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +23,10 @@ public class Board {
   private String boardContent;
   private Integer boardCount;
   private Integer boardPrivate;
+
+  @OneToMany(mappedBy="board", cascade = CascadeType.PERSIST)
+  private List<Reply> replies;
+
 
   @CreationTimestamp
   @Column(updatable = false, nullable = false)

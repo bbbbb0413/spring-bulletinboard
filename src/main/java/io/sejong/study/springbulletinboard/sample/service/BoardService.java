@@ -5,7 +5,11 @@ import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.repository.BoardRepository;
 import java.util.List;
+
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class BoardService {
@@ -28,9 +32,13 @@ public class BoardService {
     return boardRepository.findpaging();
   }
 
+  @Transactional
   public Board getOneByBoardId(Long boardId) {
 
-    return boardRepository.findByBoardId(boardId);
+    Board board = boardRepository.findByBoardId(boardId);
+    Hibernate.initialize(board.getReplies());
+
+    return board;
   }
 
   public Board createBoard(BoardCreateRequest request) {

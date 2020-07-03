@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
+
 @Controller
 public class SampleController {
 
@@ -49,9 +51,12 @@ public class SampleController {
 
   /** sample 단건 조회 http://localhost:8080/sample/read-one?sample_id={sample_id} */
   @RequestMapping("/sample/read-one")
+  @Transactional
   public String getBoardOne(Model model, @RequestParam("board_id") Long boardId) {
     Board board = boardService.getOneByBoardId(boardId);
 
+    // lazy 일 때 lazyinitialization 이 뜬다
+    // controller에서 replies 잃어버림. view에서 null
     model.addAttribute("board", board);
 
     // sample-read-one.ftl 뷰를 반환한다.
