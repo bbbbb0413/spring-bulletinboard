@@ -17,7 +17,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
   @Query(value = "select count(*) from board", nativeQuery = true)
   List<Integer> findpaging();
 
-//  List<Board> findAll()
   Board findByBoardId(Long boardId);
 
 }

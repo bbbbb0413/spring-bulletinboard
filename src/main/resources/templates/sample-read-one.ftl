@@ -17,8 +17,6 @@
         <div>
             <input name="boardTitle" id="boardTitle" size="80" placeholder=${board.boardTitle} readonly>
         </div>
-
-<<<<<<< HEAD
         <div>
             <textarea name="boardContent" id="boardContent" rows="10" cols="80" placeholder=${board.boardContent} readonly></textarea>
         </div>
@@ -33,45 +31,17 @@
         </div>
         <br>
         <div class="button">
-            <button type = "button" onclick="location.href = 'http://localhost:8080/sample/write?type=UPDATE&board_id=${board.boardId}'">
-                update
-            </button>
-=======
-    <div>
-        <textarea name="boardContent" id="boardContent" rows="10" cols="80" placeholder=${board.boardContent} readonly></textarea>
-    </div>
-    <div>
-        Makedate : <label>${board.boardMakeDate} </label>
-    </div>
-    <div>
-        Fixdate : <label>${board.boardFixDate} </label>
-    </div>
-    <div>
-        Count : <label>${board.boardCount} </label>
-    </div>
-    <br>
-    <div class="button">
         <button type = "button" onclick="location.href = 'http://localhost:8080/sample/write?type=UPDATE&board_id=${board.boardId}'">
             board update
         </button>
->>>>>>> feature/Reply
+
 
         </div>
         <br>
     </form>
     <button type = "button" onclick="location.href = 'http://localhost:8080/sample/delete?board_id=${board.boardId}'">
-        delete
+        board delete
     </button>
-
-    <form name = "form2">
-        <br>
-        <div class="button">
-            <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all'">>
-               back
-            </button>
-        </div>
-    </form>
-
 <#--Reply form 수정해야함.-->
     <form name = "form2" method ="post" action = "/reply/create">
         <div>
@@ -120,11 +90,11 @@
                 <input type="hidden" name="replyMakeDate" id="replyMakeDate" value=${row.replyMakeDate}> </input>
                 <input type="hidden" name="replyFixDate" id="replyFixDate" value=${row.replyFixDate}> </input>
                 <div>
-                    <textarea name = "replyContent" id = "replyContent" rows="5" cols="20" placeholder=${row.replyContent}></textarea>
+                    <textarea name = "replyContent" id = "replyContent" rows="2" cols="15`" placeholder=${row.replyContent}></textarea>
                 </div>
                 <div class="button">
                     <button type = "submit">
-                        update
+                        reply update
                     </button>
                 </div>
             </form>
@@ -133,6 +103,15 @@
     </tr>
 </#list>
 </table>
+
+    <form name = "form2">
+        <br>
+        <div class="button">
+            <button type = "button" onclick="location.href ='http://localhost:8080/sample/read-all'">>
+                back
+            </button>
+        </div>
+    </form>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

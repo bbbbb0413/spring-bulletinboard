@@ -2,7 +2,7 @@ package io.sejong.study.springbulletinboard.sample.controller;
 
 import io.sejong.study.springbulletinboard.sample.entity.Sample;
 import io.sejong.study.springbulletinboard.sample.entity.Board;
-
+import io.sejong.study.springbulletinboard.sample.entity.Reply;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.ReplyCreateRequest;
