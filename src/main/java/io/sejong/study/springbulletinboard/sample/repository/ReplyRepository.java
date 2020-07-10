@@ -1,5 +1,6 @@
 package io.sejong.study.springbulletinboard.sample.repository;
 
+import io.sejong.study.springbulletinboard.sample.entity.Board;
 import io.sejong.study.springbulletinboard.sample.entity.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 //  List<Integer> findpaging();
 
   List<Reply> findAll();
-  Reply findByBoard_boardId(Long ReplyId);
+  Reply findByReplyId(Long replyId);
 
 }

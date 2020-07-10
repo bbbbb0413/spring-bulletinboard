@@ -24,7 +24,7 @@ public class Board {
   private Integer boardCount;
   private Integer boardPrivate;
 
-  @OneToMany(mappedBy="board", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy="board")
   private List<Reply> replies;
 
 

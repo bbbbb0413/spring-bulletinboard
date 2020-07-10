@@ -6,12 +6,14 @@ import io.sejong.study.springbulletinboard.sample.entity.Reply;
 
 import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
+import io.sejong.study.springbulletinboard.sample.http.req.ReplyCreateRequest;
+import io.sejong.study.springbulletinboard.sample.http.req.ReplyUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.model.Type;
 import io.sejong.study.springbulletinboard.sample.service.SampleService;
 import io.sejong.study.springbulletinboard.sample.service.BoardService;
-
+import io.sejong.study.springbulletinboard.sample.service.ReplyService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -25,9 +27,11 @@ import javax.transaction.Transactional;
 public class SampleController {
 
   private final BoardService boardService;
+  private final ReplyService replyService;
 
-  public SampleController(BoardService boardService) {
+  public SampleController(BoardService boardService, ReplyService replyService) {
     this.boardService = boardService;
+    this.replyService = replyService;
   }
 
   /** sample 전체 조회 http://localhost:8080/sample/read-all*/
@@ -110,4 +114,54 @@ public class SampleController {
     // http://localhost:8080/sample/read-all로 리다이렉션 한다.
     return "redirect:/sample/read-all";
   }
+  /** reply cerate */
+  @PostMapping("/reply/create")
+  public String createReply(Model model, @ModelAttribute ReplyCreateRequest request) {
+
+    Reply reply = replyService.createReply(request);
+    // reply내부의 boardId를 가지고 redirect하기 위한 x
+    Board x;
+    x = reply.getBoard();
+    model.addAttribute("board_id", x.getBoardId());
+
+    // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
+  /** reply update */
+  @PostMapping("/reply/update")
+  public String updateReply(Model model,
+                            @ModelAttribute ReplyUpdateRequest request,
+                            @RequestParam(value = "reply_id", required = false) Long replyId) {
+    Reply reply;
+    Board x;
+    //update 요청받은 replyId로 조회 후 update
+    reply = replyService.getOneByReplyId(replyId);
+    reply = replyService.updateReply(request);
+    //해당 reply의 boardId를 사용해 redirect
+    x = reply.getBoard();
+    model.addAttribute("reply", reply);
+    model.addAttribute("reply_id", reply.getReplyId());
+    model.addAttribute("board_id", x.getBoardId());
+    // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
+  /** reply delete */
+  @RequestMapping("/reply/delete")
+  public String deleteReply(Model model, @RequestParam("reply_id") Long replyId) {
+    Reply reply;
+    Board x;
+
+    reply = replyService.getOneByReplyId(replyId);
+    //삭제하기 전에 redirect할 boardId를 저장
+    x = reply.getBoard();
+
+    replyService.deleteReply(replyId);
+    model.addAttribute("board_id", x.getBoardId());
+    // http://localhost:8080/sample/read-all로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
 }
+

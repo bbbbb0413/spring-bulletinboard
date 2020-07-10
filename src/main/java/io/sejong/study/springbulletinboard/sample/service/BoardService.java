@@ -34,8 +34,11 @@ public class BoardService {
 
   @Transactional
   public Board getOneByBoardId(Long boardId) {
-
     Board board = boardRepository.findByBoardId(boardId);
+    //board 조회수 증가 후 DB 저장
+    board.setBoardCount(board.getBoardCount()+1);
+    boardRepository.save(board);
+    // replies를 veiw에서 사용하기 위해서 초기화.
     Hibernate.initialize(board.getReplies());
 
     return board;
@@ -48,6 +51,7 @@ public class BoardService {
     return boardRepository.save(board);
   }
 
+
   public Board updateBoard(BoardUpdateRequest request) {
     Board board = boardRepository.findByBoardId(request.getBoardId());
     board.setBoardTitle(request.getBoardTitle());
@@ -55,12 +59,12 @@ public class BoardService {
     board.setBoardCount(request.getBoardCount());
     board.setBoardPrivate(request.getBoardPrivate());
     board.setUsId(request.getUsId());
-    board.setUsId(request.getUsId());
 
     return boardRepository.save(board);
   }
 
   public void deleteBoard(Long boardId) {
+
     boardRepository.deleteById(boardId);
   }
 }

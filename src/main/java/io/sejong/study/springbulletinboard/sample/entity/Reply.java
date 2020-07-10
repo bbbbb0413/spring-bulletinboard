@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class Reply {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-
   private Long replyId;
 
   private Long usId;
@@ -39,13 +38,13 @@ public class Reply {
   @Column(nullable = false)
   private LocalDateTime replyFixDate;
 
-  public Reply(Long replyId, Board board, String replyTitle, String replyWriter, String replyContent, Long usId) {
-    this.replyId = replyId;
+  public Reply(Board board, String replyWriter, String replyContent, Long usId) {
     this.usId = usId; // 로그인 한 사용자의 usId
     this.board = board; // 댓글이 작성된 게시글의 Id
     this.replyWriter = replyWriter; // 로그인 한 사용자의 이름을 사용할 예정
     this.replyContent = replyContent; // 게시글 내용
 
   }
+
 
 }
