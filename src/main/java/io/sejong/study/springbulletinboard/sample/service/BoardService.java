@@ -5,7 +5,11 @@ import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.repository.BoardRepository;
 import java.util.List;
+
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class BoardService {
@@ -28,9 +32,16 @@ public class BoardService {
     return boardRepository.findpaging();
   }
 
+  @Transactional
   public Board getOneByBoardId(Long boardId) {
+    Board board = boardRepository.findByBoardId(boardId);
+    //board 조회수 증가 후 DB 저장
+    board.setBoardCount(board.getBoardCount()+1);
+    boardRepository.save(board);
+    // replies를 veiw에서 사용하기 위해서 초기화.
+    Hibernate.initialize(board.getReplies());
 
-    return boardRepository.findByBoardId(boardId);
+    return board;
   }
 
   public Board createBoard(BoardCreateRequest request) {
@@ -40,13 +51,13 @@ public class BoardService {
     return boardRepository.save(board);
   }
 
+
   public Board updateBoard(BoardUpdateRequest request) {
     Board board = boardRepository.findByBoardId(request.getBoardId());
     board.setBoardTitle(request.getBoardTitle());
     board.setBoardContent(request.getBoardContent());
     board.setBoardCount(request.getBoardCount());
     board.setBoardPrivate(request.getBoardPrivate());
-    board.setUsId(request.getUsId());
     board.setUsId(request.getUsId());
 
     return boardRepository.save(board);

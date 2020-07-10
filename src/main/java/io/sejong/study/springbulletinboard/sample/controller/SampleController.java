@@ -5,12 +5,14 @@ import io.sejong.study.springbulletinboard.sample.entity.Board;
 
 import io.sejong.study.springbulletinboard.sample.http.req.BoardCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.BoardUpdateRequest;
+import io.sejong.study.springbulletinboard.sample.http.req.ReplyCreateRequest;
+import io.sejong.study.springbulletinboard.sample.http.req.ReplyUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleCreateRequest;
 import io.sejong.study.springbulletinboard.sample.http.req.SampleUpdateRequest;
 import io.sejong.study.springbulletinboard.sample.model.Type;
 import io.sejong.study.springbulletinboard.sample.service.SampleService;
 import io.sejong.study.springbulletinboard.sample.service.BoardService;
-
+import io.sejong.study.springbulletinboard.sample.service.ReplyService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -18,13 +20,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
+
 @Controller
 public class SampleController {
 
   private final BoardService boardService;
+  private final ReplyService replyService;
 
-  public SampleController(BoardService boardService) {
+  public SampleController(BoardService boardService, ReplyService replyService) {
     this.boardService = boardService;
+    this.replyService = replyService;
   }
 
   /** sample 전체 조회 http://localhost:8080/sample/read-all*/
@@ -48,9 +54,12 @@ public class SampleController {
 
   /** sample 단건 조회 http://localhost:8080/sample/read-one?sample_id={sample_id} */
   @RequestMapping("/sample/read-one")
+  @Transactional
   public String getBoardOne(Model model, @RequestParam("board_id") Long boardId) {
     Board board = boardService.getOneByBoardId(boardId);
 
+    // lazy 일 때 lazyinitialization 이 뜬다
+    // controller에서 replies 잃어버림. view에서 null
     model.addAttribute("board", board);
 
     // sample-read-one.ftl 뷰를 반환한다.
@@ -104,4 +113,54 @@ public class SampleController {
     // http://localhost:8080/sample/read-all로 리다이렉션 한다.
     return "redirect:/sample/read-all";
   }
+  /** reply cerate */
+  @PostMapping("/reply/create")
+  public String createReply(Model model, @ModelAttribute ReplyCreateRequest request) {
+
+    Reply reply = replyService.createReply(request);
+    // reply내부의 boardId를 가지고 redirect하기 위한 x
+    Board x;
+    x = reply.getBoard();
+    model.addAttribute("board_id", x.getBoardId());
+
+    // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
+  /** reply update */
+  @PostMapping("/reply/update")
+  public String updateReply(Model model,
+                            @ModelAttribute ReplyUpdateRequest request,
+                            @RequestParam(value = "reply_id", required = false) Long replyId) {
+    Reply reply;
+    Board x;
+    //update 요청받은 replyId로 조회 후 update
+    reply = replyService.getOneByReplyId(replyId);
+    reply = replyService.updateReply(request);
+    //해당 reply의 boardId를 사용해 redirect
+    x = reply.getBoard();
+    model.addAttribute("reply", reply);
+    model.addAttribute("reply_id", reply.getReplyId());
+    model.addAttribute("board_id", x.getBoardId());
+    // http://localhost:8080/sample/read-one으로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
+  /** reply delete */
+  @RequestMapping("/reply/delete")
+  public String deleteReply(Model model, @RequestParam("reply_id") Long replyId) {
+    Reply reply;
+    Board x;
+
+    reply = replyService.getOneByReplyId(replyId);
+    //삭제하기 전에 redirect할 boardId를 저장
+    x = reply.getBoard();
+
+    replyService.deleteReply(replyId);
+    model.addAttribute("board_id", x.getBoardId());
+    // http://localhost:8080/sample/read-all로 리다이렉션 한다.
+    return "redirect:/sample/read-one";
+  }
+
 }
+
